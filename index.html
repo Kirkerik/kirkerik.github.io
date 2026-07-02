@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XTeam — Cyber Hackers</title>
+    <style>
+        /* ==================== ОСНОВНОЙ СТИЛЬ ==================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+        html { scroll-behavior: smooth; }
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0a0a0f 0%, #1a0b1f 40%, #0f0a1a 100%);
+            color: #d0d9e8;
+            padding: 20px 30px;
+            transition: background 0.5s ease;
+        }
+        /* киберпанк-обои (неоновые полосы и тени) */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 20% 30%, rgba(0, 255, 200, 0.06) 0%, transparent 60%),
+                radial-gradient(circle at 80% 70%, rgba(255, 0, 200, 0.06) 0%, transparent 60%),
+                repeating-linear-gradient(45deg, transparent, transparent 100px, rgba(0, 255, 200, 0.02) 100px, rgba(0, 255, 200, 0.02) 101px);
+            pointer-events: none;
+            z-index: -1;
+        }
+        /* неоновый акцент */
+        .neon {
+            color: #00ffc8;
+            text-shadow: 0 0 10px rgba(0, 255, 200, 0.3);
+        }
+        .neon-pink {
+            color: #ff00c8;
+            text-shadow: 0 0 10px rgba(255, 0, 200, 0.3);
+        }
+
+        /* ==================== ШАПКА ==================== */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            padding: 10px 0 20px;
+            border-bottom: 1px solid rgba(0, 255, 200, 0.15);
+            margin-bottom: 30px;
+        }
+        .logo {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #00ffc8;
+            text-shadow: 0 0 20px rgba(0, 255, 200, 0.3);
+            letter-spacing: 2px;
+        }
+        .logo span { color: #d0d9e8; }
+        nav a {
+            color: #a0b3cc;
+            text-decoration: none;
+            margin-left: 25px;
+            font-weight: 500;
+            transition: 0.3s;
+            font-size: 0.95rem;
+        }
+        nav a:hover { color: #00ffc8; text-shadow: 0 0 15px rgba(0, 255, 200, 0.2); }
+        .nav-auth {
+            background: rgba(0, 255, 200, 0.1);
+            padding: 6px 18px;
+            border-radius: 30px;
+            border: 1px solid rgba(0, 255, 200, 0.2);
+        }
+
+        /* ==================== ГЕРОЙ ==================== */
+        .hero {
+            text-align: center;
+            padding: 50px 0 40px;
+        }
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #00ffc8, #ff00c8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 3px;
+        }
+        .hero p {
+            font-size: 1.2rem;
+            opacity: 0.7;
+            margin: 15px 0 30px;
+        }
+        .badges {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+        .badge {
+            background: rgba(0, 255, 200, 0.08);
+            border: 1px solid rgba(0, 255, 200, 0.2);
+            padding: 6px 20px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            color: #00ffc8;
+        }
+        .btn {
+            background: linear-gradient(135deg, #00ffc8, #00ccaa);
+            color: #0a0a0f;
+            padding: 14px 40px;
+            border-radius: 40px;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-block;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn:hover {
+            transform: scale(1.03);
+            box-shadow: 0 0 30px rgba(0, 255, 200, 0.3);
+        }
+        .btn-outline {
+            background: transparent;
+            border: 1px solid rgba(0, 255, 200, 0.4);
+            color: #00ffc8;
+            margin-left: 10px;
+        }
+        .btn-outline:hover {
+            background: rgba(0, 255, 200, 0.1);
+            box-shadow: none;
+        }
+
+        /* ==================== СЕКЦИИ ==================== */
+        section {
+            max-width: 1100px;
+            margin: 50px auto;
+            padding: 0 15px;
+        }
+        h2 {
+            font-size: 2.2rem;
+            border-left: 4px solid #00ffc8;
+            padding-left: 18px;
+            margin-bottom: 25px;
+            color: #eaeef5;
+        }
+
+        /* карточки услуг */
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 25px;
+        }
+        .service-card {
+            background: rgba(20, 25, 40, 0.6);
+            backdrop-filter: blur(4px);
+            padding: 25px 20px;
+            border-radius: 14px;
+            border: 1px solid rgba(0, 255, 200, 0.1);
+            transition: 0.3s;
+        }
+        .service-card:hover {
+            border-color: #00ffc8;
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(0, 255, 200, 0.05);
+        }
+        .service-card h3 { color: #00ffc8; margin-bottom: 8px; }
+
+        /* команда */
+        .team-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: center;
+        }
+        .team-member {
+            background: rgba(20, 25, 40, 0.6);
+            backdrop-filter: blur(4px);
+            padding: 25px 30px;
+            border-radius: 14px;
+            text-align: center;
+            border: 1px solid rgba(255, 0, 200, 0.1);
+            min-width: 150px;
+            transition: 0.3s;
+        }
+        .team-member:hover { border-color: #ff00c8; }
+        .avatar { font-size: 3rem; margin-bottom: 6px; }
+
+        /* ==================== ФОРМЫ ==================== */
+        .form-container {
+            background: rgba(15, 18, 30, 0.8);
+            backdrop-filter: blur(8px);
+            padding: 30px 35px;
+            border-radius: 16px;
+            border: 1px solid rgba(0, 255, 200, 0.15);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .form-group {
+            margin-bottom: 18px;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 5px;
+            color: #a0b3cc;
+            font-size: 0.9rem;
+        }
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            color: #d0d9e8;
+            font-size: 1rem;
+            transition: 0.3s;
+        }
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #00ffc8;
+            box-shadow: 0 0 20px rgba(0, 255, 200, 0.05);
+        }
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        /* ==================== БАЗА ДАННЫХ (таблица) ==================== */
+        .db-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 0.9rem;
+        }
+        .db-table th,
+        .db-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            text-align: left;
+        }
+        .db-table th {
+            color: #00ffc8;
+            font-weight: 600;
+            border-bottom: 2px solid rgba(0, 255, 200, 0.2);
+        }
+        .db-table tr:hover td {
+            background: rgba(0, 255, 200, 0.03);
+        }
+        .empty-row td {
+            color: #556;
+            text-align: center;
+            padding: 30px;
+        }
+
+        /* ==================== ПОДВАЛ ==================== */
+        footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            padding-top: 20px;
+            text-align: center;
+            font-size: 0.85rem;
+            opacity: 0.5;
+            margin-top: 50px;
+        }
+
+        /* ==================== АДАПТИВ ==================== */
+        @media (max-width: 700px) {
+            body { padding: 15px; }
+            header { flex-direction: column; align-items: flex-start; gap: 10px; }
+            nav a { margin-left: 0; margin-right: 15px; }
+            .hero h1 { font-size: 2.6rem; }
+            .form-container { padding: 20px; }
+            .db-table { font-size: 0.75rem; }
+            .db-table th, .db-table td { padding: 8px 6px; }
+        }
+
+        /* анимация для плавного появления */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ========================================================== -->
+    <!-- ШАПКА -->
+    <header>
+        <div class="logo">X<span>Team</span></div>
+        <nav>
+            <a href="#about">О нас</a>
+            <a href="#services">Услуги</a>
+            <a href="#team">Команда</a>
+            <a href="#apply">Заявка</a>
+            <a href="#db">База</a>
+            <a href="#auth" class="nav-auth" id="authLink">Вход</a>
+        </nav>
+    </header>
+
+    <!-- ГЕРОЙ -->
+    <section class="hero">
+        <h1>XTeam</h1>
+        <p>Белые хакеры. Киберпанк. Этичный взлом.</p>
+        <div class="badges">
+            <span class="badge">🛡️ OSCP</span>
+            <span class="badge">⚡ CEH</span>
+            <span class="badge">🔐 ISO 27001</span>
+            <span class="badge">💠 OSINT</span>
+        </div>
+        <div>
+            <a href="#apply" class="btn">🔓 Подать заявку</a>
+            <a href="#auth" class="btn btn-outline">🔑 Войти</a>
+        </div>
+    </section>
+
+    <!-- О НАС -->
+    <section id="about">
+        <h2>Кто мы</h2>
+        <p style="max-width:700px; line-height:1.8;">XTeam — сообщество кибербезопасников. Мы тестируем системы на прочность, ищем уязвимости, обучаем и защищаем. Наш кодекс — этичный взлом, открытость и постоянное развитие. Мы не нарушаем закон — мы помогаем его соблюдать.</p>
+    </section>
+
+    <!-- УСЛУГИ -->
+    <section id="services">
+        <h2>Услуги</h2>
+        <div class="service-grid">
+            <div class="service-card"><h3>🛡️ Пентест</h3><p>Тестирование на проникновение</p></div>
+            <div class="service-card"><h3>🔍 Аудит кода</h3><p>Поиск уязвимостей</p></div>
+            <div class="service-card"><h3>📚 Обучение</h3><p>Курсы по кибербезопасности</p></div>
+            <div class="service-card"><h3>🌐 OSINT</h3><p>Анализ открытых данных</p></div>
+        </div>
+    </section>
+
+    <!-- КОМАНДА -->
+    <section id="team">
+        <h2>Команда</h2>
+        <div class="team-grid">
+            <div class="team-member"><div class="avatar">🧑‍💻</div><h4>Alex "Root"</h4><p>Основатель, пентестер</p></div>
+            <div class="team-member"><div class="avatar">👩‍💻</div><h4>Elena "Hex"</h4><p>Аналитик, OSINT</p></div>
+            <div class="team-member"><div class="avatar">🧑‍🎓</div><h4>Dmitry "Kernel"</h4><p>Аудит кода, разработка</p></div>
+        </div>
+    </section>
+
+    <!-- ========================================================== -->
+    <!-- ФОРМА ПОДАЧИ ЗАЯВКИ -->
+    <section id="apply">
+        <h2>📩 Подать заявку</h2>
+        <div class="form-container">
+            <form id="applyForm">
+                <div class="form-group">
+                    <label>Имя (никнейм)</label>
+                    <input type="text" id="applyName" placeholder="Например: RootX" required>
+                </div>
+                <div class="form-group">
+                    <label>Опыт в IT / взломах</label>
+                    <textarea id="applyExp" placeholder="Что умеешь? (Python, соц-инженерия, OSINT, и т.д.)" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Контакты (Telegram / Email)</label>
+                    <input type="text" id="applyContact" placeholder="@telegram или email@example.com" required>
+                </div>
+                <button type="submit" class="btn" style="width:100%; justify-content:center;">🚀 Отправить заявку</button>
+            </form>
+        </div>
+        <div id="applyStatus" style="text-align:center; margin-top:15px; font-weight:500;"></div>
+    </section>
+
+    <!-- ========================================================== -->
+    <!-- РЕГИСТРАЦИЯ / ВХОД -->
+    <section id="auth">
+        <h2>🔐 Вход / Регистрация</h2>
+        <div class="form-container">
+            <form id="authForm">
+                <div class="form-group">
+                    <label>Логин</label>
+                    <input type="text" id="authLogin" placeholder="Логин" required>
+                </div>
+                <div class="form-group">
+                    <label>Пароль</label>
+                    <input type="password" id="authPass" placeholder="Пароль" required>
+                </div>
+                <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                    <button type="submit" class="btn" style="flex:1;">Войти</button>
+                    <button type="button" id="registerBtn" class="btn btn-outline" style="flex:1;">Зарегистрироваться</button>
+                </div>
+            </form>
+            <div id="authStatus" style="text-align:center; margin-top:15px; font-weight:500;"></div>
+        </div>
+    </section>
+
+    <!-- ========================================================== -->
+    <!-- БАЗА ДАННЫХ (таблица заявок) -->
+    <section id="db">
+        <h2>📋 База заявок</h2>
+        <div style="overflow-x:auto;">
+            <table class="db-table" id="dbTable">
+                <thead>
+                    <tr><th>#</th><th>Имя</th><th>Опыт</th><th>Контакты</th><th>Дата</th></tr>
+                </thead>
+                <tbody id="dbBody">
+                    <tr class="empty-row"><td colspan="5">Пока нет заявок. Стань первым!</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="text-align:right; margin-top:10px;">
+            <button class="btn btn-outline" style="padding:6px 20px; font-size:0.8rem;" id="clearDbBtn">🧹 Очистить базу</button>
+        </div>
+    </section>
+
+    <!-- ПОДВАЛ -->
+    <footer>
+        <p>XTeam © 2026 — Cyber Hackers</p>
+        <p style="font-size:0.7rem; opacity:0.5;">[ secure · ethical · open ]</p>
+    </footer>
+
+    <!-- ========================================================== -->
+    <script>
+        // =============================================================
+        // 1. СИСТЕМА БАЗЫ ДАННЫХ (localStorage)
+        // =============================================================
+        const DB_KEY = 'xteam_applications';
+
+        function getDB() {
+            try {
+                return JSON.parse(localStorage.getItem(DB_KEY)) || [];
+            } catch { return []; }
+        }
+
+        function saveDB(data) {
+            localStorage.setItem(DB_KEY, JSON.stringify(data));
+        }
+
+        function addApplication(name, exp, contact) {
+            const db = getDB();
+            db.push({
+                id: Date.now(),
+                name: name.trim(),
+                exp: exp.trim(),
+                contact: contact.trim(),
+                date: new Date().toLocaleString()
+            });
+            saveDB(db);
+            renderDB();
+        }
+
+        function clearDB() {
+            if (confirm('Удалить все заявки?')) {
+                saveDB([]);
+                renderDB();
+            }
+        }
+
+        // =============================================================
+        // 2. ОТОБРАЖЕНИЕ БАЗЫ
+        // =============================================================
+        function renderDB() {
+            const db = getDB();
+            const tbody = document.getElementById('dbBody');
+            if (db.length === 0) {
+                tbody.innerHTML = '<tr class="empty-row"><td colspan="5">Пока нет заявок. Стань первым!</td></tr>';
+                return;
+            }
+            let html = '';
+            db.forEach((row, idx) => {
+                html += `<tr>
+                            <td>${idx + 1}</td>
+                            <td><strong>${escapeHtml(row.name)}</strong></td>
+                            <td>${escapeHtml(row.exp)}</td>
+                            <td>${escapeHtml(row.contact)}</td>
+                            <td>${row.date}</td>
+                        </tr>`;
+            });
+            tbody.innerHTML = html;
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // =============================================================
+        // 3. ФОРМА ПОДАЧИ ЗАЯВКИ
+        // =============================================================
+        document.getElementById('applyForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('applyName').value.trim();
+            const exp = document.getElementById('applyExp').value.trim();
+            const contact = document.getElementById('applyContact').value.trim();
+
+            if (!name || !exp || !contact) {
+                document.getElementById('applyStatus').innerHTML = '<span style="color:#ff6b6b;">⚠️ Заполни все поля!</span>';
+                return;
+            }
+
+            addApplication(name, exp, contact);
+            document.getElementById('applyStatus').innerHTML = '<span style="color:#00ffc8;">✅ Заявка отправлена!</span>';
+            this.reset();
+            setTimeout(() => {
+                document.getElementById('applyStatus').innerHTML = '';
+            }, 4000);
+        });
+
+        // =============================================================
+        // 4. РЕГИСТРАЦИЯ / ВХОД (тоже храним в localStorage)
+        // =============================================================
+        const USERS_KEY = 'xteam_users';
+
+        function getUsers() {
+            try { return JSON.parse(localStorage.getItem(USERS_KEY)) || {}; } catch { return {}; }
+        }
+
+        function saveUsers(users) {
+            localStorage.setItem(USERS_KEY, JSON.stringify(users));
+        }
+
+        document.getElementById('registerBtn').addEventListener('click', function() {
+            const login = document.getElementById('authLogin').value.trim();
+            const pass = document.getElementById('authPass').value.trim();
+            const status = document.getElementById('authStatus');
+
+            if (!login || !pass) {
+                status.innerHTML = '<span style="color:#ff6b6b;">⚠️ Введи логин и пароль</span>';
+                return;
+            }
+            const users = getUsers();
+            if (users[login]) {
+                status.innerHTML = '<span style="color:#ff6b6b;">❌ Такой логин уже существует</span>';
+                return;
+            }
+            users[login] = pass;
+            saveUsers(users);
+            status.innerHTML = '<span style="color:#00ffc8;">✅ Регистрация успешна! Теперь войди.</span>';
+            setTimeout(() => status.innerHTML = '', 2500);
+        });
+
+        document.getElementById('authForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const login = document.getElementById('authLogin').value.trim();
+            const pass = document.getElementById('authPass').value.trim();
+            const status = document.getElementById('authStatus');
+
+            if (!login || !pass) {
+                status.innerHTML = '<span style="color:#ff6b6b;">⚠️ Введи логин и пароль</span>';
+                return;
+            }
+            const users = getUsers();
+            if (users[login] && users[login] === pass) {
+                status.innerHTML = '<span style="color:#00ffc8;">✅ Добро пожаловать, ' + login + '!</span>';
+                document.getElementById('authLink').textContent = '👤 ' + login;
+                document.getElementById('authLink').style.borderColor = '#00ffc8';
+                // можно сохранить сессию
+                localStorage.setItem('xteam_session', login);
+            } else {
+                status.innerHTML = '<span style="color:#ff6b6b;">❌ Неверный логин или пароль</span>';
+            }
+            setTimeout(() => status.innerHTML = '', 3000);
+        });
+
+        // восстанавливаем сессию при загрузке
+        (function restoreSession() {
+            const session = localStorage.getItem('xteam_session');
+            if (session) {
+                document.getElementById('authLink').textContent = '👤 ' + session;
+                document.getElementById('authLink').style.borderColor = '#00ffc8';
+            }
+        })();
+
+        // =============================================================
+        // 5. ОЧИСТКА БАЗЫ
+        // =============================================================
+        document.getElementById('clearDbBtn').addEventListener('click', clearDB);
+
+        // =============================================================
+        // 6. ПЛАВНОЕ ПОЯВЛЕНИЕ (fade-in)
+        // =============================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            renderDB();
+
+            // добавим fade-in для карточек
+            document.querySelectorAll('.service-card, .team-member, .form-container').forEach(el => {
+                el.classList.add('fade-in');
+                setTimeout(() => el.classList.add('visible'), 100);
+            });
+
+            // плавный скролл
+            document.querySelectorAll('nav a').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    const href = this.getAttribute('href');
+                    if (href.startsWith('#')) {
+                        e.preventDefault();
+                        const target = document.querySelector(href);
+                        if (target) target.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
